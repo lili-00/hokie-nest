@@ -1,7 +1,7 @@
-# College Housing Platform
+# Hokie Nest
 
 <!-- Brief introduction to the project -->
-Welcome to the College Housing Platform! This project is a web application designed to help students find housing near their college campuses. It is built using React, TypeScript, and Supabase.
+Welcome to Hokie Nest! This project is a web application designed to help students find housing near their college campuses. It is built using React, TypeScript, and Supabase.
 
 ## Prerequisites
 
@@ -14,13 +14,13 @@ Before you begin, ensure you have met the following requirements:
 ## Installation
 
 <!-- Step-by-step guide to set up the project -->
-1. **Clone the repository**:
+1. **Clone the Hokie Nest repository**:
    ```bash
-   git clone https://github.com/your-username/college-housing-platform.git
+   git clone https://github.com/your-username/hokie-nest.git
    ```
    Navigate into the project directory:
    ```bash
-   cd college-housing-platform
+   cd hokie-nest
    ```
 
 2. **Install dependencies**:
