@@ -20,6 +20,9 @@ export default function PropertyList() {
   const [locations, setLocations] = useState<string[]>([]);
   const [leaseDurations, setLeaseDurations] = useState<number[]>([]);
 
+  // Add a new state for location search
+  const [locationSearch, setLocationSearch] = useState<string>('');
+
   useEffect(() => {
     async function fetchProperties() {
       const { data, error } = await supabase
@@ -61,6 +64,14 @@ export default function PropertyList() {
       filtered = filtered.filter(property => property.location === location);
     }
     
+    // Add location search filter
+    if (locationSearch) {
+      filtered = filtered.filter(property => 
+        (property.location?.toLowerCase().includes(locationSearch.toLowerCase()) || 
+         property.address?.toLowerCase().includes(locationSearch.toLowerCase()))
+      );
+    }
+    
     if (leaseDuration) {
       filtered = filtered.filter(property => property.lease_duration === parseInt(leaseDuration));
     }
@@ -76,6 +87,7 @@ export default function PropertyList() {
     setMinPrice('');
     setMaxPrice('');
     setLocation('');
+    setLocationSearch(''); // Clear location search
     setLeaseDuration('');
     setIsFurnished('');
     setFilteredProperties(properties);
@@ -83,7 +95,7 @@ export default function PropertyList() {
 
   useEffect(() => {
     applyFilters();
-  }, [minPrice, maxPrice, location, leaseDuration, isFurnished]);
+  }, [minPrice, maxPrice, location, locationSearch, leaseDuration, isFurnished]); // Add locationSearch to dependencies
 
   if (loading) {
     return <div className="text-center text-neutral">Loading properties...</div>;
@@ -135,6 +147,21 @@ export default function PropertyList() {
               </select>
             </div>
           </div>
+          
+          {/* Location Search */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-neutral">Search Location</label>
+            <div className="flex items-center space-x-2">
+              <Search className="h-5 w-5 text-neutral" />
+              <input
+                type="text"
+                placeholder="Search by location or address"
+                value={locationSearch}
+                onChange={(e) => setLocationSearch(e.target.value)}
+                className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+            </div>
+          </div>
 
           {/* Lease Duration Filter */}
           <div className="space-y-2">
@@ -173,7 +200,7 @@ export default function PropertyList() {
         </div>
 
         {/* Clear Filters */}
-        {(minPrice || maxPrice || location || leaseDuration || isFurnished) && (
+        {(minPrice || maxPrice || location || locationSearch || leaseDuration || isFurnished) && (
           <button
             onClick={clearFilters}
             className="mt-4 text-neutral hover:text-primary transition-colors"
